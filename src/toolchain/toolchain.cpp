@@ -7,9 +7,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-
 static FILE *(*platform_popen)(char const *_Command, char const *_Mode) = _popen;
-
 static int (*platform_pclose)(FILE *_File) = _pclose;
 #elif defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
@@ -18,6 +16,7 @@ static int (*platform_pclose)(FILE *_File) = pclose;
 #endif
 
 namespace loom {
+
     static std::string run_command(const std::string &_command) {
         std::string result;
 
@@ -64,6 +63,15 @@ namespace loom {
     }
 
     std::string sToolchain::validate() const {
+        if( !binary_exists( cxx ) )
+            return "compiler not found: '" + cxx + "'\n"
+                   "install clang++ 17+ or use sToolchain::toolchainAt() to specify a path";
+
+        if( !binary_exists( ar ) )
+            return "archiver not found: '" + ar + "'\n"
+                   "check your LLVM installation";
+
+        return "";
     }
 
     std::string sToolchain::cxx_version() const
@@ -93,6 +101,7 @@ namespace loom {
         return toolchain;
     }
 
+    // stubs, WIP
     sToolchain sToolchain::tc_gcc(std::string _version) {
         return {};
     }
@@ -100,4 +109,5 @@ namespace loom {
     sToolchain sToolchain::tc_MSVC(std::string _version) {
         return {};
     }
+
 }

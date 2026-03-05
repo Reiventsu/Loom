@@ -73,29 +73,29 @@ namespace loom::diagnostics {
     void Reporter::error( std::string_view _message ) {
         ++s_errorCount;
         if( s_useColors )
-            std::println( std::cerr, "{}error{}: {}",
-                         cxpr_red, cxpr_reset, _message
+            std::println( std::cerr, "{}error{}: {}"
+                        , cxpr_red, cxpr_reset, _message
             );
         else
             std::println( std::cerr, "error: {}"
-                         , _message
+                        , _message
             );
     }
 
     void Reporter::warning( std::string_view _message ) {
         if( s_useColors )
             std::println( std::cerr, "{}warning{}: {}"
-                         , cxpr_yellow, cxpr_reset, _message
+                        , cxpr_yellow, cxpr_reset, _message
             );
         else
             std::println( std::cerr, "warning: {}"
-                         , _message
+                        , _message
             );
     }
 
-    void Reporter::fatal(const std::string_view _message) {
-        error(_message);
-        std::exit(-1);
+    void Reporter::fatal( const std::string_view _message ) {
+        error( _message );
+        std::exit( -1 );
     }
 
     bool Reporter::has_errors() {
@@ -111,10 +111,10 @@ namespace loom::diagnostics {
         const char *dim = s_useColors   ? cxpr_dim : "";
 
         std::println( std::cerr, "{}{}{}{}{}: {}{}"
-                     , bold, col, levelString( _diag.level ), reset, bold, _diag.message, reset
+                    , bold, col, levelString( _diag.level ), reset, bold, _diag.message, reset
         );
 
-        if ( _diag.location.line > 0 ) {
+        if( _diag.location.line > 0 ) {
             std::println( std::cerr, "{} --> {}{}:{}:{}"
                         , dim, reset, _diag.location.file, _diag.location.line, _diag.location.column
             );
@@ -123,24 +123,24 @@ namespace loom::diagnostics {
                             ? readSourceLine(_diag.location.file, _diag.location.line)
                             : _diag.sourceLine;
 
-            if ( !src.empty() ) {
+            if( !src.empty() ) {
                 std::string num = std::format( "{}", _diag.location.line );
                 std::string padding( num.size(), ' ' );
 
                 std::println( std::cerr, "{}{} |{}", dim, padding, reset );
                 std::println( std::cerr, "{}{}{} | {}{}", bold, num, dim, reset, src );
 
-                if ( !_diag.underline.empty() )
+                if( !_diag.underline.empty() )
                     std::println( std::cerr, "{}{} | {}{}{}", dim, padding, reset, col, _diag.underline );
 
                 std::println( std::cerr, "{}{} |{}", dim, padding, reset );
             }
         }
         
-        for (const auto &child: _diag.children ) {
-            const char *ccol = s_useColors ? levelColor( child.level ) : "";
-            std::println( std::cerr, "{}{}{}{}: {}"
-                        , ccol, bold, levelString( child.level ), reset, child.message );
+        for( const auto &child: _diag.children ) {
+             const char *ccol = s_useColors ? levelColor( child.level ) : "";
+             std::println( std::cerr, "{}{}{}{}: {}"
+                         , ccol, bold, levelString( child.level ), reset, child.message );
         }
 
         std::println( std::cerr, "" );
