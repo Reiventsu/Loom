@@ -1,4 +1,4 @@
-#include "toolchain.hpp"
+#include "loom/toolchain.hpp"
 
 #include <array>
 #include <cstdlib>
@@ -46,7 +46,7 @@ namespace loom {
         switch (_compiler)
         {
             case eCompiler::Clang: return tc_Clang(_version);
-            case eCompiler::gcc:   return tc_gcc(_version);
+            case eCompiler::GCC:   return tc_GCC(_version);
             case eCompiler::MSVC:  return tc_MSVC(_version);
             default:               return std::unexpected<std::string>("unknown compiler");
         }
@@ -102,7 +102,7 @@ namespace loom {
     }
 
     // stubs, WIP
-    sToolchain sToolchain::tc_gcc(std::string _version) {
+    sToolchain sToolchain::tc_GCC(std::string _version) {
         return {};
     }
 
