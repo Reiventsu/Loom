@@ -1,2 +1,6 @@
+# IDE
 .idea
+.vs
+
+# Generated
 .build
