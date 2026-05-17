@@ -4,22 +4,21 @@
 #include <filesystem>
 
 namespace loom {
-
     enum class eCompiler {
         Clang,
-        GCC,
-        MSVC,
+        GCC, // unimplemented
+        MSVC, // Unimplemented
     };
 
     struct sToolchain {
-        eCompiler   compiler;
+        eCompiler compiler;
         std::string cxx;
         std::string ar;
         std::string linker;
 
         [[nodiscard]]
-        static std::expected< sToolchain, std::string > getToolchain( eCompiler _compiler
-                                                                    , const std::string &_version = "" );
+        static std::expected<sToolchain, std::string> getToolchain(eCompiler _compiler
+                                                                   , const std::string &_version = "");
 
         [[nodiscard]]
         static sToolchain toolchainAt(const std::filesystem::path &_cxx_path);
@@ -32,7 +31,9 @@ namespace loom {
 
     private:
         static sToolchain tc_Clang(const std::string &_version = "");
+
         static sToolchain tc_GCC(std::string _version = "");
+
         static sToolchain tc_MSVC(std::string _version = "");
     };
 }
