@@ -1,4 +1,4 @@
-#include "profile.hpp"
+#include "loom/profile.hpp"
 
 namespace loom {
 

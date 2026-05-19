@@ -4,8 +4,8 @@
 
 namespace loom::diagnostics {
 
-    size_t editDistance( const std::string_view _a
-                       , const std::string_view _b ) {
+    auto editDistance( const std::string_view _a
+                     , const std::string_view _b ) -> size_t {
 
         // For more info on how this works
         // https://en.wikipedia.org/wiki/Levenshtein_distance
@@ -32,8 +32,8 @@ namespace loom::diagnostics {
         return dp[m][n];
     }
 
-    std::optional< std::string > closestMatch( const std::string_view _query
-                                             , const std::vector<std::string> &_candidates ) {
+    auto closestMatch( const std::string_view _query
+                     , const std::vector<std::string> &_candidates ) -> std::optional< std::string > {
 
         if( _candidates.empty() ) return std::nullopt;
         const size_t threshold = std::max( size_t{ 2 }, _query.size() / 3 );
@@ -52,8 +52,8 @@ namespace loom::diagnostics {
         return std::nullopt;
     }
 
-    std::string did_you_mean( const std::string_view _query
-                            , const std::vector<std::string> &_candidates) {
+    auto did_you_mean( const std::string_view _query
+                     , const std::vector<std::string> &_candidates) -> std::string {
         const auto match = closestMatch( _query, _candidates );
         if( !match ) return "";
         return std::format( "did you mean `{}`?", *match );

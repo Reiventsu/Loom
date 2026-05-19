@@ -27,7 +27,7 @@ namespace loom::diagnostics {
     bool Reporter::s_useColors  = false;
     int  Reporter::s_errorCount = 0;
 
-    static const char *levelColor( const eLevel _level ) {
+    static auto levelColor( const eLevel _level ) -> const char * {
         switch ( _level ) {
             case eLevel::Error: return cxpr_red;
             case eLevel::Warning: return cxpr_yellow;
@@ -37,7 +37,7 @@ namespace loom::diagnostics {
         return "";
     }
 
-    static const char *levelString( const eLevel _level ) {
+    static auto levelString( const eLevel _level ) -> const char * {
         switch ( _level ) {
             case eLevel::Error: return "error";
             case eLevel::Warning: return "warning";
@@ -47,7 +47,7 @@ namespace loom::diagnostics {
         return "";
     }
 
-    static std::string readSourceLine( const std::filesystem::path &_file, const uint32_t _lineNum ) {
+    static auto readSourceLine( const std::filesystem::path &_file, const uint32_t _lineNum ) -> std::string {
         std::ifstream f{ _file };
         if ( !f.is_open() ) return "";
         std::string line;
@@ -57,7 +57,7 @@ namespace loom::diagnostics {
         return line;
     };
 
-    void Reporter::init() {
+    auto Reporter::init() -> void {
 #ifdef _WIN32
         HANDLE h = GetStdHandle(STD_ERROR_HANDLE);
         DWORD mode = 0;
@@ -70,7 +70,7 @@ namespace loom::diagnostics {
 #endif
     }
 
-    void Reporter::error( std::string_view _message ) {
+    auto Reporter::error( std::string_view _message ) -> void {
         ++s_errorCount;
         if( s_useColors )
             std::println( std::cerr, "{}error{}: {}"
@@ -82,7 +82,7 @@ namespace loom::diagnostics {
             );
     }
 
-    void Reporter::warning( std::string_view _message ) {
+    auto Reporter::warning( std::string_view _message ) -> void {
         if( s_useColors )
             std::println( std::cerr, "{}warning{}: {}"
                         , cxpr_yellow, cxpr_reset, _message
@@ -93,16 +93,16 @@ namespace loom::diagnostics {
             );
     }
 
-    void Reporter::fatal( const std::string_view _message ) {
+    auto Reporter::fatal( const std::string_view _message ) -> void {
         error( _message );
         std::exit( -1 );
     }
 
-    bool Reporter::has_errors() {
+    auto Reporter::has_errors() -> bool {
         return s_errorCount > 0;
     }
 
-    void Reporter::emit( const sDiagnostic &_diag ) {
+    auto Reporter::emit( const sDiagnostic &_diag ) -> void {
         if( _diag.level == eLevel::Error ) ++s_errorCount;
 
         const char *col = s_useColors   ? levelColor( _diag.level ) : "";
@@ -136,7 +136,7 @@ namespace loom::diagnostics {
                 std::println( std::cerr, "{}{} |{}", dim, padding, reset );
             }
         }
-        
+
         for( const auto &child: _diag.children ) {
              const char *ccol = s_useColors ? levelColor( child.level ) : "";
              std::println( std::cerr, "{}{}{}{}: {}"

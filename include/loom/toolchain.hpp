@@ -17,23 +17,25 @@ namespace loom {
         std::string linker;
 
         [[nodiscard]]
-        static std::expected<sToolchain, std::string> getToolchain(eCompiler _compiler
-                                                                   , const std::string &_version = "");
+        static auto getToolchain(eCompiler _compiler, const std::string &_version = "")
+            -> std::expected<sToolchain, std::string>;
 
         [[nodiscard]]
-        static sToolchain toolchainAt(const std::filesystem::path &_cxx_path);
+        static auto toolchainAt(const std::filesystem::path &_cxx_path) -> sToolchain;
 
         [[nodiscard]]
-        std::string validate() const;
+        auto validate() const
+            -> std::string;
 
         [[nodiscard]]
-        std::string cxx_version() const;
+        auto cxx_version() const
+            -> std::string;
 
     private:
-        static sToolchain tc_Clang(const std::string &_version = "");
+        static auto tc_Clang(const std::string &_version = "") -> sToolchain;
 
-        static sToolchain tc_GCC(std::string _version = "");
+        static auto tc_GCC(std::string _version = "") -> sToolchain;
 
-        static sToolchain tc_MSVC(std::string _version = "");
+        static auto tc_MSVC(std::string _version = "") -> sToolchain;
     };
 }

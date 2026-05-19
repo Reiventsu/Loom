@@ -30,17 +30,17 @@ namespace loom::diagnostics {
 
     class Reporter {
     public:
-        static void init();
+        static auto init() -> void;
 
-        static void emit(const sDiagnostic& _diag);
-        static void error(std::string_view _message);
-        static void warning(std::string_view _message);
+        static auto emit(const sDiagnostic& _diag) -> void;
+        static auto error(std::string_view _message) -> void;
+        static auto warning(std::string_view _message) -> void;
 
         [[noreturn]]
-        static void fatal(std::string_view _message);
+        static auto fatal(std::string_view _message) -> void;
 
         [[nodiscard]]
-        static bool has_errors();
+        static auto has_errors() -> bool;
 
     private:
         static bool s_useColors;
@@ -48,4 +48,3 @@ namespace loom::diagnostics {
     };
 
 }
-

@@ -51,88 +51,88 @@ Target::Target(std::string_view _name, eKind _kind, sCallSite _declaredAt)
 
 Target::~Target() = default;
 
-std::string_view Target::name() const noexcept { return m_impl->name; }
-eKind            Target::kind() const noexcept { return m_impl->kind; }
+auto Target::name() const noexcept -> std::string_view { return m_impl->name; }
+auto Target::kind() const noexcept -> eKind            { return m_impl->kind; }
 
-Target& Target::standard(eStandard _standard, std::source_location _loc)
+auto Target::standard(eStandard _standard, std::source_location _loc) -> Target &
 {
     m_impl->standard = _standard;
     return *this;
 }
 
-Target& Target::sources(std::string_view _glob, std::source_location _loc)
+auto Target::sources(std::string_view _glob, std::source_location _loc) -> Target &
 {
     m_impl->source_globs.emplace_back(_glob);
     return *this;
 }
 
-Target& Target::exclude(std::string_view _glob, std::source_location _loc)
+auto Target::exclude(std::string_view _glob, std::source_location _loc) -> Target &
 {
     m_impl->exclude_globs.emplace_back(_glob);
     return *this;
 }
 
-Target& Target::include(std::string_view _path, std::source_location _loc)
+auto Target::include(std::string_view _path, std::source_location _loc) -> Target &
 {
     m_impl->includes.push_back({ std::string(_path), eLinkVisibility::Private, sCallSite::here(_loc) });
     return *this;
 }
 
-Target& Target::includePublic(std::string_view _path, std::source_location _loc)
+auto Target::includePublic(std::string_view _path, std::source_location _loc) -> Target &
 {
     m_impl->includes.push_back({ std::string(_path), eLinkVisibility::Public, sCallSite::here(_loc) });
     return *this;
 }
 
-Target& Target::includePrivate(std::string_view _path, std::source_location _loc)
+auto Target::includePrivate(std::string_view _path, std::source_location _loc) -> Target &
 {
     m_impl->includes.push_back({ std::string(_path), eLinkVisibility::Private, sCallSite::here(_loc) });
     return *this;
 }
 
-Target& Target::define(std::string_view _macro, std::source_location _loc)
+auto Target::define(std::string_view _macro, std::source_location _loc) -> Target &
 {
     m_impl->defines.emplace_back(_macro);
     return *this;
 }
 
-Target& Target::define(std::string_view _macro, std::string_view _value, std::source_location _loc)
+auto Target::define(std::string_view _macro, std::string_view _value, std::source_location _loc) -> Target &
 {
     m_impl->defines.emplace_back(std::string(_macro) + "=" + std::string(_value));
     return *this;
 }
 
-Target& Target::flag(std::string_view _flag, std::source_location _loc)
+auto Target::flag(std::string_view _flag, std::source_location _loc) -> Target &
 {
     m_impl->flags.emplace_back(_flag);
     return *this;
 }
 
-Target& Target::optimize(eOptimization _level, std::source_location _loc)
+auto Target::optimize(eOptimization _level, std::source_location _loc) -> Target &
 {
     m_impl->optimize = _level;
     return *this;
 }
 
-Target& Target::dependsOn(Target& _other, eLinkVisibility _visibility, std::source_location _loc)
+auto Target::dependsOn(Target& _other, eLinkVisibility _visibility, std::source_location _loc) -> Target &
 {
     m_impl->dependencies.push_back({ &_other, _visibility, sCallSite::here(_loc) });
     return *this;
 }
 
-Target& Target::linkTo(std::string_view _lib, std::source_location _loc)
+auto Target::linkTo(std::string_view _lib, std::source_location _loc) -> Target &
 {
     m_impl->system_libs.emplace_back(_lib);
     return *this;
 }
 
-Target& Target::outputName(std::string_view _name, std::source_location _loc)
+auto Target::outputName(std::string_view _name, std::source_location _loc) -> Target &
 {
     m_impl->output_name = _name;
     return *this;
 }
 
-Target& Target::outputDir(std::string_view _path, std::source_location _loc)
+auto Target::outputDir(std::string_view _path, std::source_location _loc) -> Target &
 {
     m_impl->output_dir = _path;
     return *this;

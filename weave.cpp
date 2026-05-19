@@ -11,7 +11,7 @@
 
 using tBuildStatus = std::expected<void, std::string_view>;
 
-tBuildStatus weave() {
+auto weave() -> tBuildStatus {
 
 
 

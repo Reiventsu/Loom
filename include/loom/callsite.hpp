@@ -11,7 +11,7 @@ namespace loom {
         uint32_t         column;
 
         [[nodiscard]]
-        static sCallSite here(const std::source_location &_loc = std::source_location::current() ) noexcept {
+        static auto here(const std::source_location &_loc = std::source_location::current() ) noexcept -> sCallSite {
             return { _loc.file_name(), _loc.line(), _loc.column() };
         }
     };

@@ -8,16 +8,16 @@
 namespace loom::diagnostics
 {
 
-    [[nodiscard]] size_t editDistance(std::string_view _a, std::string_view _b);
+    [[nodiscard]] auto editDistance(std::string_view _a, std::string_view _b) -> size_t;
 
-    [[nodiscard]] std::optional<std::string> closestMatch(
+    [[nodiscard]] auto closestMatch(
         std::string_view                _query,
         const std::vector<std::string>& _candidates
-    );
+    ) -> std::optional<std::string>;
 
-    [[nodiscard]] std::string did_you_mean(
+    [[nodiscard]] auto did_you_mean(
         std::string_view                _query,
         const std::vector<std::string>& _candidates
-    );
+    ) -> std::string;
 
 } // namespace loom::diagnostics

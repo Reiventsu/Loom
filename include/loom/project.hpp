@@ -13,55 +13,55 @@
 namespace loom {
     class Project {
     public:
-        Project &name(std::string_view _name);
-        Project &version(std::string_view _version);
-        Project &toolchain(sToolchain _toolchain);
+        auto name(std::string_view _name) -> Project &;
+        auto version(std::string_view _version) -> Project &;
+        auto toolchain(sToolchain _toolchain) -> Project &;
 
         [[nodiscard]]
-        Target& executable( std::string_view _name
-                          , std::source_location _loc = std::source_location::current());
+        auto executable( std::string_view _name
+                       , std::source_location _loc = std::source_location::current()) -> Target &;
 
         [[nodiscard]]
-        Target& staticLibrary( std::string_view _name
-                             , std::source_location _loc = std::source_location::current());
+        auto staticLibrary( std::string_view _name
+                          , std::source_location _loc = std::source_location::current()) -> Target &;
 
         [[nodiscard]]
-        Target& sharedLibrary( std::string_view _name
-                             , std::source_location _loc = std::source_location::current());
+        auto sharedLibrary( std::string_view _name
+                          , std::source_location _loc = std::source_location::current()) -> Target &;
 
         [[nodiscard]]
-        Target& headerOnly( std::string_view _name
-                          , std::source_location _loc = std::source_location::current());
+        auto headerOnly( std::string_view _name
+                       , std::source_location _loc = std::source_location::current()) -> Target &;
 
         [[nodiscard]]
-        Target& moduleLibrary( std::string_view _name
-                             , std::source_location _loc = std::source_location::current());
+        auto moduleLibrary( std::string_view _name
+                          , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Project &on( ePlatform _platform, std::function< void() > _configure );
-        Project &on( eArchitecture _arch, std::function< void() > _configure );
-        Project &on( sProfile _profile,   std::function< void() > _configure );
+        auto on( ePlatform _platform, std::function< void() > _configure ) -> Project &;
+        auto on( eArchitecture _arch, std::function< void() > _configure ) -> Project &;
+        auto on( sProfile _profile,   std::function< void() > _configure ) -> Project &;
 
-        Project &on( ePlatform _platform, eArchitecture, std::function< void() > _configure );
+        auto on( ePlatform _platform, eArchitecture, std::function< void() > _configure ) -> Project &;
 
-        Project &profile( std::string_view _profileName, std::function< void() > _configure
-                        , std::source_location _loc = std::source_location::current());
+        auto profile( std::string_view _profileName, std::function< void() > _configure
+                    , std::source_location _loc = std::source_location::current()) -> Project &;
 
-        Project &globalStandard( eStandard _standard
-                               , std::source_location _loc = std::source_location::current());
+        auto globalStandard( eStandard _standard
+                           , std::source_location _loc = std::source_location::current()) -> Project &;
 
-        Project &globalFlag( std::string_view _flag
-                           , std::source_location _loc = std::source_location::current());
+        auto globalFlag( std::string_view _flag
+                       , std::source_location _loc = std::source_location::current()) -> Project &;
 
-        Project &globalDefine( std::string_view _macro
-                             , std::source_location _loc = std::source_location::current() );
+        auto globalDefine( std::string_view _macro
+                         , std::source_location _loc = std::source_location::current() ) -> Project &;
 
-        Project &globalOptimize( eOptimization _level
-                               , std::source_location _loc = std::source_location::current() );
+        auto globalOptimize( eOptimization _level
+                           , std::source_location _loc = std::source_location::current() ) -> Project &;
 
-        Project(const Project&)            = delete;
-        Project& operator=(const Project&) = delete;
-        Project(Project&&)                 = delete;
-        Project& operator=(Project&&)      = delete;
+        Project(const Project&)                        = delete;
+        auto operator=(const Project&) -> Project&     = delete;
+        Project(Project&&)                             = delete;
+        auto operator=(Project&&) -> Project&          = delete;
 
         Project();
         ~Project();

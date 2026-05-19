@@ -10,60 +10,60 @@
 namespace loom {
     class Target {
     public:
-        [[nodiscard]] std::string_view name() const noexcept;
+        [[nodiscard]] auto name() const noexcept -> std::string_view;
 
-        [[nodiscard]] eKind kind() const noexcept;
+        [[nodiscard]] auto kind() const noexcept -> eKind;
 
-        Target &standard( eStandard _standard
-                        , std::source_location _loc = std::source_location::current());
+        auto standard( eStandard _standard
+                     , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &sources( std::string_view _glob
-                       , std::source_location _loc = std::source_location::current());
+        auto sources( std::string_view _glob
+                    , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &exclude( std::string_view _glob
-                       , std::source_location _loc = std::source_location::current());
+        auto exclude( std::string_view _glob
+                    , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &include( std::string_view
-                       , std::source_location _loc = std::source_location::current());
+        auto include( std::string_view
+                    , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &includePublic( std::string_view _path
-                             , std::source_location _loc = std::source_location::current());
+        auto includePublic( std::string_view _path
+                          , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &includePrivate( std::string_view _path
-                              , std::source_location _loc = std::source_location::current());
+        auto includePrivate( std::string_view _path
+                           , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &define( std::string_view _macro
-                      , std::source_location _loc = std::source_location::current());
+        auto define( std::string_view _macro
+                   , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &define( std::string_view _macro, std::string_view _value
-                      , std::source_location _loc = std::source_location::current());
+        auto define( std::string_view _macro, std::string_view _value
+                   , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &flag( std::string_view _flag
-                    , std::source_location _loc = std::source_location::current());
+        auto flag( std::string_view _flag
+                 , std::source_location _loc = std::source_location::current()) -> Target &;
 
         template <typename... Tflags>
-        Target &flags(Tflags&&... _flags) {
+        auto flags(Tflags&&... _flags) -> Target & {
             (flag(std::forward<Tflags>(_flags)), ...);
             return *this;
         }
 
-        Target &optimize( eOptimization
-                        , std::source_location _loc = std::source_location::current());
+        auto optimize( eOptimization
+                     , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &dependsOn( Target &_other, eLinkVisibility _visibility = eLinkVisibility::Private
-                          , std::source_location _loc = std::source_location::current() );
+        auto dependsOn( Target &_other, eLinkVisibility _visibility = eLinkVisibility::Private
+                      , std::source_location _loc = std::source_location::current() ) -> Target &;
 
-        Target &linkTo(std::string_view _lib, std::source_location _loc = std::source_location::current());
+        auto linkTo(std::string_view _lib, std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &outputName( std::string_view _name, std::source_location _loc = std::source_location::current());
+        auto outputName( std::string_view _name, std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target &outputDir( std::string_view _path
-                         , std::source_location _loc = std::source_location::current());
+        auto outputDir( std::string_view _path
+                      , std::source_location _loc = std::source_location::current()) -> Target &;
 
-        Target(const Target&) = delete;
-        Target& operator=(const Target&) = delete;
-        Target(Target&&) = default;
-        Target& operator=(Target&&) = default;
+        Target(const Target&)                      = delete;
+        auto operator=(const Target&) -> Target&   = delete;
+        Target(Target&&)                           = default;
+        auto operator=(Target&&) -> Target&        = default;
         ~Target();
     private:
         friend class Project;

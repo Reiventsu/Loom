@@ -1,6 +1,8 @@
 #pragma once
 #include <filesystem>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <vector>
 
 namespace loom {
@@ -10,14 +12,6 @@ namespace loom {
         bool is_interface;
     };
 
-
-    enum class State { Normal, LineComment, BlockComment, StringLiteral };
-
-    static auto flush(std::string &_current, std::vector<std::string> &_tokens) {
-        if (_current.empty()) {
-            _tokens.push_back(std::move(_current));
-            _current.clear();
-        }
-    }
-
+    auto scan(const std::filesystem::path &_path) -> sScanResult;
+    auto tokenize(std::string_view _source) -> std::vector<std::string>;
 }

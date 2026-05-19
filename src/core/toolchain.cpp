@@ -17,7 +17,7 @@ static int (*platform_pclose)(FILE *_File) = pclose;
 
 namespace loom {
 
-    static std::string run_command(const std::string &_command) {
+    static auto run_command(const std::string &_command) -> std::string {
         std::string result;
 
         FILE *pipe = platform_popen(_command.c_str(), "r");
@@ -33,7 +33,7 @@ namespace loom {
         return result;
     }
 
-    static bool binary_exists(const std::string &_name) {
+    static auto binary_exists(const std::string &_name) -> bool {
 #ifdef _WIN32
         return !run_command("where " + _name + " 2>nul").empty();
 #elif defined(__linux__) || defined(__APPLE__)
@@ -41,8 +41,8 @@ namespace loom {
 #endif
     }
 
-    std::expected<sToolchain, std::string> sToolchain::getToolchain( const eCompiler _compiler
-                                                                   , const std::string &_version ) {
+    auto sToolchain::getToolchain( const eCompiler _compiler
+                                 , const std::string &_version ) -> std::expected<sToolchain, std::string> {
         switch (_compiler)
         {
             case eCompiler::Clang: return tc_Clang(_version);
@@ -52,7 +52,7 @@ namespace loom {
         }
     }
 
-    sToolchain sToolchain::toolchainAt(const std::filesystem::path &_cxx_path)
+    auto sToolchain::toolchainAt(const std::filesystem::path &_cxx_path) -> sToolchain
     {
         return sToolchain {
             .compiler = eCompiler::Clang,
@@ -62,7 +62,7 @@ namespace loom {
         };
     }
 
-    std::string sToolchain::validate() const {
+    auto sToolchain::validate() const -> std::string {
         if( !binary_exists( cxx ) )
             return "compiler not found: '" + cxx + "'\n"
                    "install clang++ 17+ or use sToolchain::toolchainAt() to specify a path";
@@ -74,12 +74,12 @@ namespace loom {
         return "";
     }
 
-    std::string sToolchain::cxx_version() const
+    auto sToolchain::cxx_version() const -> std::string
     {
         return run_command(cxx + " --version");
     }
 
-    sToolchain sToolchain::tc_Clang(const std::string &_version) {
+    auto sToolchain::tc_Clang(const std::string &_version) -> sToolchain {
         if (!_version.empty()) {
             if (const std::string versioned = "clang++-" + _version; binary_exists(versioned)) {
                 sToolchain toolchain {
@@ -102,11 +102,11 @@ namespace loom {
     }
 
     // stubs, WIP
-    sToolchain sToolchain::tc_GCC(std::string _version) {
+    auto sToolchain::tc_GCC(std::string _version) -> sToolchain {
         return {};
     }
 
-    sToolchain sToolchain::tc_MSVC(std::string _version) {
+    auto sToolchain::tc_MSVC(std::string _version) -> sToolchain {
         return {};
     }
 

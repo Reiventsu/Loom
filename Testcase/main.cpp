@@ -1,5 +1,5 @@
 import Greeting;
 
-int main() {
+auto main() -> int {
     PrintText( "Modules!" );
 }

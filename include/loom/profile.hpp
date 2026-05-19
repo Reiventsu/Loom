@@ -47,7 +47,7 @@ namespace loom {
         std::string_view name;
 
         [[nodiscard]]
-        bool operator==(const sProfile& _other) const noexcept {
+        auto operator==(const sProfile& _other) const noexcept -> bool {
             return name == _other.name;
         }
 
